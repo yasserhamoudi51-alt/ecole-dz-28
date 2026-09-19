@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ecole dz 28</title>
+<style>
+*{box-sizing:border-box}
+:root{--navy:#13233f;--navy2:#1c3155;--blue:#2d67d7;--gold:#e4a72f;--paper:#f7f9fc;--line:#dce4ef;--text:#17243a;--muted:#728096}
+body{margin:0;font-family:Tahoma,Arial,sans-serif;background:#edf2f8;color:var(--text)}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.13;background-image:radial-gradient(#6c7b91 1px,transparent 1px);background-size:22px 22px}
+header{height:78px;background:linear-gradient(90deg,var(--navy),#1b3965);color:white;padding:0 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;box-shadow:0 4px 15px #12213c33}
+.brandbox{display:flex;align-items:center;gap:12px}.brandicon{font-size:38px}.brand{font-size:25px;font-weight:900}.sub{font-size:12px;color:#c9d6ea;margin-top:3px}
+header>button{background:var(--gold);color:#17243a;border:0;border-radius:10px;padding:11px 18px;font-weight:900;cursor:pointer}
+.layout{max-width:1400px;margin:auto;display:grid;grid-template-columns:1fr 270px;gap:18px;padding:22px}
+.main{min-width:0}.sidebar{background:var(--navy);color:white;border-radius:18px;padding:18px;height:max-content;position:sticky;top:100px;box-shadow:0 10px 30px #13233f22}
+.sidebar .side-title{font-size:18px;font-weight:900;padding:8px 6px 16px;border-bottom:1px solid #ffffff18}
+.side-item{padding:13px 12px;border-radius:10px;margin-top:7px;color:#dce6f5;cursor:pointer}
+.side-item.active{background:linear-gradient(90deg,#5b38d8,#356edc);color:#fff;font-weight:900}
+.side-item:hover{background:#ffffff12}
+.datebox{background:#20385f;border:1px solid #ffffff12;border-radius:12px;padding:12px;margin:14px 0}.datebox small{color:#aebed5}.datebox b{display:block;margin-top:5px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+.stat{background:white;border:1px solid var(--line);border-radius:15px;padding:16px;box-shadow:0 7px 20px #1830520b;position:relative;overflow:hidden}
+.stat:after{content:"";position:absolute;right:0;top:0;width:5px;height:100%;background:var(--accent,#2d67d7)}
+.stat .label{color:var(--muted);font-size:13px}.stat b{font-size:29px;display:block;margin-top:8px}
+.hero{background:linear-gradient(120deg,#fff,#f5f8ff);border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;gap:15px}
+.hero h1{margin:0;font-size:24px;color:var(--navy)}.hero p{margin:7px 0 0;color:var(--muted)}
+.books{font-size:44px;white-space:nowrap}
+.card{background:#fff;border:1px solid var(--line);border-radius:17px;padding:20px;margin-top:18px;box-shadow:0 8px 24px #1830520a}
+.card h2{margin:0;color:var(--navy);font-size:20px}
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:end;margin:18px 0}
+.field{display:flex;flex-direction:column;gap:6px;min-width:170px;flex:1}
+label{font-size:12px;font-weight:900;color:#53627a}
+input,select{font:inherit;border:1px solid #ccd6e5;border-radius:9px;padding:10px 11px;background:#fbfcfe;color:var(--text)}
+button{font:inherit;cursor:pointer;border:0;border-radius:9px;padding:10px 13px;font-weight:900}
+button.primary{background:var(--blue);color:#fff}.secondary{background:#eaf0fb;color:#244a8f}.danger{background:#df4b4b;color:#fff}.gold{background:var(--gold);color:#18243b}
+.table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse;min-width:650px}.table th,.table td{padding:13px 10px;border-bottom:1px solid #edf1f6;text-align:right}.table th{background:#f2f6fb;color:#637188;font-size:12px}
+.badge{display:inline-block;padding:5px 12px;border-radius:999px;font-size:12px;font-weight:900}.present{background:#dff4e7;color:#187442}.absent{background:#ffe0e0;color:#b42f2f}
+.actions{display:flex;gap:7px;flex-wrap:wrap}.empty{text-align:center;padding:35px;color:#8b97a9}
+.modal{position:fixed;inset:0;background:#071326aa;display:none;align-items:center;justify-content:center;padding:20px;z-index:30}.modal.open{display:flex}.modal-box{background:white;border-radius:16px;padding:24px;width:min(500px,100%);box-shadow:0 25px 70px #0005}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.close{background:#eef2f7;color:#34445d;padding:6px 10px}.toast{position:fixed;bottom:22px;left:22px;background:var(--navy);color:white;padding:12px 16px;border-radius:10px;display:none;z-index:40;box-shadow:0 8px 25px #0003}
+.footer{margin-top:18px;padding:18px;text-align:center;color:#718097;font-size:12px}
+@media(max-width:1000px){.layout{grid-template-columns:1fr}.sidebar{position:static;order:-1}.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){header{padding:0 15px}.brand{font-size:20px}.layout{padding:12px}.stats{grid-template-columns:1fr 1fr}.hero{display:block}.books{margin-top:10px}}
+
+.page-view{display:none}.page-view.active{display:block}
+.page-title{font-size:24px;font-weight:900;color:var(--navy);margin-bottom:6px}
+.page-sub{color:var(--muted);margin-bottom:18px}
+.quick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.quick-card{background:#fff;border:1px solid var(--line);border-radius:15px;padding:20px;cursor:pointer;box-shadow:0 7px 20px #1830520b}
+.quick-card:hover{transform:translateY(-2px);box-shadow:0 12px 25px #18305218}
+.quick-card .ico{font-size:30px}.quick-card b{display:block;margin-top:8px;color:var(--navy)}
+.back-btn{background:#eaf0fb;color:#244a8f;margin-bottom:15px}
+.info-list{display:grid;gap:10px}.info-row{background:#f7f9fc;border:1px solid var(--line);border-radius:10px;padding:13px;display:flex;justify-content:space-between;gap:10px}
+@media(max-width:700px){.quick-grid{grid-template-columns:1fr}}
+
+/* ===== Responsive: هاتف + تابلت + PC ===== */
+html,body{max-width:100%;overflow-x:hidden}
+img,video{max-width:100%;height:auto}
+button,input,select{max-width:100%}
+
+@media (max-width: 900px){
+  header{height:auto;min-height:72px;padding:12px 16px;gap:10px}
+  .brandbox{min-width:0}.brand{font-size:21px}.sub{font-size:10px}
+  .layout{display:flex;flex-direction:column;padding:12px;gap:12px}
+  .sidebar{order:-1;position:static;width:100%;padding:10px;border-radius:14px}
+  .sidebar .side-title{padding:8px 10px;text-align:center}
+  .datebox{display:none}
+  .sidebar{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+  .sidebar .side-title{width:100%;border-bottom:0}
+  .side-item{margin:0;padding:10px 12px;flex:1 1 140px;text-align:center;font-size:13px}
+  .main{width:100%}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hero{padding:16px}
+  .books{font-size:34px}
+  .controls{align-items:stretch}
+  .field{min-width:150px}
+  .table-wrap{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .table{min-width:720px}
+}
+
+@media (max-width: 600px){
+  header{padding:10px 12px}
+  header>button{padding:9px 11px;font-size:12px}
+  .brandicon{font-size:29px}.brand{font-size:18px}
+  .sub{display:none}
+  .layout{padding:8px}
+  .sidebar{padding:8px}
+  .side-item{flex:1 1 44%;font-size:12px;padding:10px 7px}
+  .stats{grid-template-columns:1fr 1fr;gap:8px}
+  .stat{padding:12px 10px}.stat b{font-size:23px}
+  .hero{display:block;text-align:center;padding:14px}
+  .hero h1{font-size:19px}.hero p{font-size:12px;line-height:1.7}
+  .books{margin-top:7px;font-size:28px}
+  .card{padding:13px;margin-top:12px}
+  .card h2{font-size:17px}
+  .controls{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .controls .field{min-width:0}
+  .controls button{width:100%;padding:9px 6px;font-size:12px}
+  input,select{width:100%;font-size:13px}
+  .quick-grid{grid-template-columns:1fr}
+  .page-title{font-size:20px}
+  .page-sub{font-size:12px;line-height:1.7}
+  .back-btn{width:100%}
+  .actions{flex-direction:column;align-items:stretch}
+  .actions button{width:100%}
+  .modal{padding:10px}
+  .modal-box{padding:17px}
+  .footer{font-size:10px;padding:12px}
+}
+
+@media (max-width: 380px){
+  .stats{grid-template-columns:1fr}
+  .side-item{flex-basis:100%}
+  .controls{grid-template-columns:1fr}
+  header{flex-direction:column;align-items:stretch}
+  header>button{width:100%}
+}
+
+.side-item{touch-action:manipulation}
+</style>
+</head>
+<body>
+<header>
+  <div class="brandbox">
+    <div class="brandicon">📘</div>
+    <div><div class="brand">ecole dz 28</div><div class="sub">نظام تسجيل حضور وغياب التلاميذ</div></div>
+  </div>
+  <button onclick="openStudentModal()">＋ إضافة تلميذ</button>
+</header>
+
+<main class="layout">
+  <div class="main">
+<div id="homeView" class="page-view active">
+    <section class="hero">
+      <div><h1>لوحة متابعة التلاميذ</h1><p>سجّل الحضور أو الغياب بضغطة واحدة، وتابع الإحصائيات اليومية بسهولة.</p></div>
+      <div class="books">📚 ✏️ 🏫</div>
+    </section>
+    <section class="stats">
+    <div class="stat" style="--accent:#2d67d7"><span class="label">عدد التلاميذ</span><b id="total">0</b></div>
+    <div class="stat" style="--accent:#20a568"><span class="label">حاضر اليوم</span><b id="present">0</b></div>
+    <div class="stat" style="--accent:#df4b4b"><span class="label">غائب اليوم</span><b id="absent">0</b></div>
+    <div class="stat" style="--accent:#e4a72f"><span class="label">نسبة الحضور</span><b id="rate">0%</b></div><div class="stat" style="--accent:#7b4de8"><span class="label">المشتركون هذا الشهر</span><b id="subscribed">0</b><span class="muted" style="font-size:12px">3000 دج / شهر</span></div>
+  </section>
+
+  <section class="card" style="margin-top:18px">
+    <h2>تسجيل الحضور</h2>
+    <div class="controls">
+      <div class="field"><label>التاريخ</label><input id="date" type="date"></div>
+      <div class="field"><label>القسم</label><select id="classFilter"></select></div>
+      <button class="secondary" onclick="markAll('present')">تحديد الكل حاضر</button>
+      <button class="secondary" onclick="markAll('absent')">تحديد الكل غائب</button>
+      <button onclick="saveAttendance()">حفظ الحضور</button>
+    </div>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th>#</th><th>اسم التلميذ</th><th>القسم</th><th>الحالة</th><th>الإجراء</th></tr></thead>
+        <tbody id="attendanceBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card" style="margin-top:18px">
+    <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap">
+      <div><h2>التلاميذ</h2><div class="muted" style="margin-top:5px">إدارة قائمة التلاميذ</div></div>
+      <button class="secondary" onclick="exportCSV()">تصدير Excel/CSV</button>
+    </div>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th>#</th><th>الاسم واللقب</th><th>القسم</th><th>الاشتراك الشهري</th><th>أيام الحضور</th><th>أيام الغياب</th><th>الإجراء</th></tr></thead>
+        <tbody id="studentsBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+    </div>
+    <div id="pageView" class="page-view"></div>
+    <div class="footer">ecole dz 28 — معًا من أجل تنظيم أفضل للحضور والغياب</div>
+  </div>
+  <aside class="sidebar">
+    <div class="side-title">🎓 القائمة الرئيسية</div>
+    <div class="datebox"><small>تاريخ اليوم</small><b id="sideDate"></b></div>
+    <div class="side-item active" data-page="home">🏠 الرئيسية</div>
+    <div class="side-item" data-page="classes">👥 الأقسام</div>
+    <div class="side-item" data-page="students">👨‍🎓 التلاميذ</div>
+    <div class="side-item" data-page="attendance">☑️ تسجيل الحضور</div>
+    <div class="side-item" data-page="records">📋 سجل الحضور والغياب</div>
+    <div class="side-item" data-page="reports">📊 التقارير</div>
+    <div class="side-item" data-page="settings">⚙️ الإعدادات</div>
+  </aside>
+</main>
+
+<div class="modal" id="studentModal">
+ <div class="modal-box">
+  <div class="modal-head"><h2>إضافة تلميذ</h2><button class="close" onclick="closeStudentModal()">✕</button></div>
+  <div class="field"><label>اسم ولقب التلميذ</label><input id="studentName" placeholder="مثال: محمد بن علي"></div>
+  <div class="field" style="margin-top:12px"><label>القسم</label><input id="studentClass" placeholder="مثال: 3AS تقني رياضي"></div>
+  <div style="margin-top:14px;padding:12px;background:#f4f7fc;border:1px solid #dbe3ef;border-radius:10px">
+    <label style="display:flex;align-items:center;gap:10px;cursor:pointer">
+      <input id="studentSubscribed" type="checkbox" style="width:18px;height:18px">
+      <span>مشترك هذا الشهر — <b>3000 دج / شهر</b></span>
+    </label>
+  </div>
+  <button style="width:100%;margin-top:18px" onclick="addStudent()">إضافة</button>
+ </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const KEY='attendance_v1';
+let db=JSON.parse(localStorage.getItem(KEY)||'null')||{students:[],attendance:{}};
+let states={};
+
+const dateEl=document.getElementById('date');
+dateEl.value=new Date().toISOString().slice(0,10);
+document.getElementById('classFilter').addEventListener('change',render);
+dateEl.addEventListener('change',render);
+
+function save(){localStorage.setItem(KEY,JSON.stringify(db))}
+function toast(msg){let t=document.getElementById('toast');t.textContent=msg;t.style.display='block';setTimeout(()=>t.style.display='none',1800)}
+function classes(){return [...new Set(db.students.map(s=>s.className))].sort()}
+function refreshClassFilter(){
+ const el=document.getElementById('classFilter'), old=el.value;
+ el.innerHTML='<option value="">كل الأقسام</option>'+classes().map(c=>`<option>${esc(c)}</option>`).join('');
+ if(classes().includes(old)) el.value=old;
+}
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function getDay(){return db.attendance[dateEl.value]||{}}
+function filtered(){
+ const c=document.getElementById('classFilter').value;
+ return db.students.filter(s=>!c||s.className===c);
+}
+function render(){
+ refreshClassFilter();
+ const day=getDay(); const list=filtered();
+ states={}; list.forEach(s=>states[s.id]=day[s.id]||'present');
+ document.getElementById('attendanceBody').innerHTML=list.length?list.map((s,i)=>`
+ <tr><td>${i+1}</td><td><b>${esc(s.name)}</b></td><td>${esc(s.className)}</td>
+ <td><span class="badge ${states[s.id]==='present'?'present':'absent'}">${states[s.id]==='present'?'حاضر':'غائب'}</span></td>
+ <td class="actions">
+   <button type="button" onclick="setState('${s.id}','present')">حاضر</button>
+   <button type="button" class="danger" onclick="setState('${s.id}','absent')">غائب</button>
+ </td></tr>`).join(''):`<tr><td colspan="5" class="empty">لا يوجد تلاميذ. أضف تلاميذ أولاً.</td></tr>`;
+
+ document.getElementById('studentsBody').innerHTML=db.students.length?db.students.map((s,i)=>{
+   let p=0,a=0; Object.values(db.attendance).forEach(d=>{if(d[s.id]==='present')p++;if(d[s.id]==='absent')a++});
+   const sub=s.subscribed?'مشترك':'غير مشترك';
+   return `<tr><td>${i+1}</td><td><b>${esc(s.name)}</b></td><td>${esc(s.className)}</td>
+   <td><span class="badge ${s.subscribed?'present':'absent'}">${sub}</span><div style="font-size:11px;color:#718096;margin-top:4px">${s.subscribed?'3000 دج / شهر':'—'}</div></td>
+   <td>${p}</td><td>${a}</td>
+   <td class="actions"><button class="${s.subscribed?'secondary':'gold'}" onclick="toggleSubscription('${s.id}')">${s.subscribed?'إلغاء الاشتراك':'اشتراك 3000 دج'}</button><button class="danger" onclick="removeStudent('${s.id}')">حذف</button></td></tr>`
+ }).join(''):`<tr><td colspan="7" class="empty">لا توجد بيانات.</td></tr>`;
+
+ updateStats();
+}
+function updateStats(){
+ const day=getDay(); db.students.forEach(s=>{if(typeof s.subscribed!=='boolean')s.subscribed=false});
+ const total=db.students.length;
+ let p=0,a=0; db.students.forEach(s=>day[s.id]==='absent'?a++:day[s.id]==='present'?p++:0);
+ document.getElementById('total').textContent=total;document.getElementById('present').textContent=p;document.getElementById('absent').textContent=a;
+ document.getElementById('rate').textContent=total?Math.round(p/total*100)+'%':'0%';
+ document.getElementById('subscribed').textContent=db.students.filter(s=>s.subscribed).length;
+}
+function setState(id,state){
+  if(state!=='present' && state!=='absent') return;
+
+  // Save the selected status for this student on the selected date.
+  if(!db.attendance[dateEl.value]) db.attendance[dateEl.value]={};
+  db.attendance[dateEl.value][id]=state;
+  states[id]=state;
+  save();
+
+  // Immediately show the new status in the table and update statistics.
+  render();
+
+  const student=db.students.find(s=>s.id===id);
+  const name=student ? student.name : 'التلميذ';
+  toast(state==='absent'
+    ? '🔴 تم تسجيل '+name+' غائبًا'
+    : '🟢 تم تسجيل '+name+' حاضرًا');
+}
+function markAll(state){
+  if(!db.attendance[dateEl.value]) db.attendance[dateEl.value]={};
+  filtered().forEach(s=>{
+    states[s.id]=state;
+    db.attendance[dateEl.value][s.id]=state;
+  });
+  save();
+  render();
+  toast(state==='absent'?'تم تسجيل الكل غائبين':'تم تسجيل الكل حاضرين');
+}
+function saveAttendance(){
+ const day=db.attendance[dateEl.value]||{};
+ filtered().forEach(s=>day[s.id]=states[s.id]||'present');
+ db.attendance[dateEl.value]=day;save();render();toast('تم حفظ الحضور بنجاح')}
+function openStudentModal(){document.getElementById('studentModal').classList.add('open');document.getElementById('studentName').focus()}
+function closeStudentModal(){document.getElementById('studentModal').classList.remove('open')}
+function addStudent(){
+ const name=document.getElementById('studentName').value.trim(), cls=document.getElementById('studentClass').value.trim();
+ if(!name||!cls){toast('أدخل اسم التلميذ والقسم');return}
+ const subscribed=document.getElementById('studentSubscribed').checked;
+ db.students.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2),name,className:cls,subscribed});
+ save();document.getElementById('studentName').value='';document.getElementById('studentClass').value='';document.getElementById('studentSubscribed').checked=false;closeStudentModal();render();toast(subscribed?'تمت إضافة التلميذ مع اشتراك 3000 دج لهذا الشهر':'تمت إضافة التلميذ بدون اشتراك')}
+function toggleSubscription(id){
+ const s=db.students.find(x=>x.id===id); if(!s)return;
+ s.subscribed=!s.subscribed;
+ save(); render();
+ toast(s.subscribed?'تم تفعيل الاشتراك: 3000 دج / شهر':'تم إلغاء الاشتراك لهذا الشهر');
+}
+function removeStudent(id){
+ const s=db.students.find(x=>x.id===id);if(!s)return;
+ if(!confirm('هل تريد حذف '+s.name+'؟'))return;
+ db.students=db.students.filter(x=>x.id!==id);Object.values(db.attendance).forEach(d=>delete d[id]);save();render();toast('تم حذف التلميذ')}
+function exportCSV(){
+ let rows=[['التاريخ','التلميذ','القسم','الحالة']];
+ Object.entries(db.attendance).forEach(([date,d])=>db.students.forEach(s=>{if(d[s.id])rows.push([date,s.name,s.className,d[s.id]==='present'?'حاضر':'غائب'])}));
+ let csv='\\ufeff'+rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\\n');
+ let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='سجل_الحضور.csv';a.click();URL.revokeObjectURL(a.href)
+}
+
+// ===== القائمة الجانبية: كل زر يفتح صفحته =====
+function showPage(page){
+  const home=document.getElementById('homeView');
+  const view=document.getElementById('pageView');
+
+  document.querySelectorAll('.side-item[data-page]').forEach(el=>{
+    el.classList.toggle('active', el.dataset.page===page);
+  });
+
+  if(page==='home'){
+    home.classList.add('active');
+    view.classList.remove('active');
+    return;
+  }
+
+  home.classList.remove('active');
+  view.classList.add('active');
+
+  const titles={
+    classes:['الأقسام','إدارة الأقسام الدراسية'],
+    students:['التلاميذ','إدارة قائمة التلاميذ والاشتراكات'],
+    attendance:['تسجيل الحضور','اضغط حاضر أو غائب لتسجيل الحالة مباشرة'],
+    records:['سجل الحضور والغياب','السجلات المحفوظة حسب التاريخ'],
+    reports:['التقارير','إحصائيات الحضور والغياب والاشتراكات'],
+    settings:['الإعدادات','إعدادات ecole dz 28']
+  };
+
+  const t=titles[page] || titles.home;
+  let content=`<button class="back-btn" onclick="showPage('home')">← العودة إلى الرئيسية</button>
+  <div class="page-title">${t[0]}</div><div class="page-sub">${t[1]}</div>`;
+
+  if(page==='classes'){
+    const cs=classes();
+    content+=`<div class="card"><div class="quick-grid">`+
+      (cs.length ? cs.map(c=>`<div class="quick-card">
+        <div class="ico">🏫</div><b>${esc(c)}</b>
+        <span class="muted">${db.students.filter(s=>s.className===c).length} تلميذ</span>
+      </div>`).join('') :
+      `<div class="empty">لا توجد أقسام بعد.</div>`) + `</div></div>`;
+  }
+
+  if(page==='students'){
+    content+=`<div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+        <h2>قائمة التلاميذ</h2>
+        <button class="primary" onclick="openStudentModal()">＋ إضافة تلميذ</button>
+      </div>
+      <div class="table-wrap"><table class="table">
+      <thead><tr><th>#</th><th>الاسم</th><th>القسم</th><th>الاشتراك</th><th>الإجراء</th></tr></thead>
+      <tbody>`+
+      (db.students.length ? db.students.map((s,i)=>`<tr>
+        <td>${i+1}</td><td><b>${esc(s.name)}</b></td><td>${esc(s.className)}</td>
+        <td><span class="badge ${s.subscribed?'present':'absent'}">${s.subscribed?'مشترك — 3000 دج':'غير مشترك'}</span></td>
+        <td class="actions">
+          <button class="${s.subscribed?'secondary':'gold'}" onclick="toggleSubscription('${s.id}');showPage('students')">${s.subscribed?'إلغاء الاشتراك':'اشتراك 3000 دج'}</button>
+          <button class="danger" onclick="removeStudent('${s.id}');showPage('students')">حذف</button>
+        </td></tr>`).join('') :
+      `<tr><td colspan="5" class="empty">لا يوجد تلاميذ.</td></tr>`) +
+      `</tbody></table></div></div>`;
+  }
+
+  if(page==='attendance'){
+    content+=`<div class="card">
+      <div class="controls">
+        <div class="field"><label>التاريخ</label><input id="pageDate" type="date" value="${dateEl.value}" onchange="dateEl.value=this.value;renderPageAttendance()"></div>
+        <div class="field"><label>القسم</label><select id="pageClass" onchange="renderPageAttendance()">
+          <option value="">كل الأقسام</option>${classes().map(c=>`<option>${esc(c)}</option>`).join('')}
+        </select></div>
+        <button class="secondary" onclick="pageMark('present')">تحديد الكل حاضر</button>
+        <button class="danger" onclick="pageMark('absent')">تحديد الكل غائب</button>
+      </div>
+      <div class="table-wrap"><table class="table">
+        <thead><tr><th>#</th><th>التلميذ</th><th>القسم</th><th>الحالة</th><th>تسجيل</th></tr></thead>
+        <tbody id="pageAttendanceBody"></tbody>
+      </table></div>
+    </div>`;
+  }
+
+  if(page==='records'){
+    const dates=Object.keys(db.attendance).sort().reverse();
+    content+=`<div class="card"><div class="table-wrap"><table class="table">
+      <thead><tr><th>التاريخ</th><th>حاضر</th><th>غائب</th><th>المسجل</th></tr></thead><tbody>`+
+      (dates.length ? dates.map(d=>{
+        const vals=Object.values(db.attendance[d]||{});
+        const p=vals.filter(x=>x==='present').length;
+        const a=vals.filter(x=>x==='absent').length;
+        return `<tr><td><b>${d}</b></td><td><span class="badge present">${p}</span></td><td><span class="badge absent">${a}</span></td><td>${p+a}</td></tr>`;
+      }).join('') : `<tr><td colspan="4" class="empty">لا توجد سجلات بعد.</td></tr>`) +
+      `</tbody></table></div></div>`;
+  }
+
+  if(page==='reports'){
+    let p=0,a=0;
+    Object.values(db.attendance).forEach(d=>Object.values(d).forEach(x=>{
+      if(x==='present')p++; else if(x==='absent')a++;
+    }));
+    const subs=db.students.filter(s=>s.subscribed).length;
+    content+=`<div class="quick-grid">
+      <div class="quick-card"><div class="ico">🟢</div><b>${p}</b><span class="muted">إجمالي الحضور</span></div>
+      <div class="quick-card"><div class="ico">🔴</div><b>${a}</b><span class="muted">إجمالي الغياب</span></div>
+      <div class="quick-card"><div class="ico">💳</div><b>${subs}</b><span class="muted">مشتركون — 3000 دج/شهر</span></div>
+    </div>
+    <div class="card"><button class="secondary" onclick="exportCSV()">📥 تصدير Excel/CSV</button></div>`;
+  }
+
+  if(page==='settings'){
+    content+=`<div class="card"><h2>الإعدادات</h2>
+      <div class="info-list" style="margin-top:15px">
+        <div class="info-row"><span>اسم الموقع</span><b>ecole dz 28</b></div>
+        <div class="info-row"><span>الاشتراك الشهري</span><b>3000 دج لكل تلميذ</b></div>
+        <div class="info-row"><span>الحالات</span><b>حاضر / غائب</b></div>
+      </div></div>`;
+  }
+
+  view.innerHTML=content;
+  if(page==='attendance') renderPageAttendance();
+}
+
+function pageMark(state){
+  const c=document.getElementById('pageClass')?.value || '';
+  if(!db.attendance[dateEl.value]) db.attendance[dateEl.value]={};
+  db.students.filter(s=>!c || s.className===c).forEach(s=>{
+    db.attendance[dateEl.value][s.id]=state;
+  });
+  save();
+  renderPageAttendance();
+  render();
+  toast(state==='absent'?'تم تسجيل التلاميذ غائبين':'تم تسجيل التلاميذ حاضرين');
+}
+
+function renderPageAttendance(){
+  const body=document.getElementById('pageAttendanceBody');
+  if(!body)return;
+  const c=document.getElementById('pageClass')?.value || '';
+  const d=db.attendance[dateEl.value] || {};
+  const list=db.students.filter(s=>!c || s.className===c);
+  body.innerHTML=list.length ? list.map((s,i)=>{
+    const st=d[s.id] || 'present';
+    return `<tr>
+      <td>${i+1}</td><td><b>${esc(s.name)}</b></td><td>${esc(s.className)}</td>
+      <td><span class="badge ${st==='present'?'present':'absent'}">${st==='present'?'حاضر':'غائب'}</span></td>
+      <td class="actions">
+        <button class="primary" onclick="setPageState('${s.id}','present')">حاضر</button>
+        <button class="danger" onclick="setPageState('${s.id}','absent')">غائب</button>
+      </td></tr>`;
+  }).join('') : `<tr><td colspan="5" class="empty">لا يوجد تلاميذ.</td></tr>`;
+}
+
+function setPageState(id,state){
+  if(!db.attendance[dateEl.value])db.attendance[dateEl.value]={};
+  db.attendance[dateEl.value][id]=state;
+  save();
+  renderPageAttendance();
+  render();
+  const s=db.students.find(x=>x.id===id);
+  toast(state==='absent'?'🔴 تم تسجيل '+s.name+' غائبًا':'🟢 تم تسجيل '+s.name+' حاضرًا');
+}
+
+document.querySelectorAll('.side-item[data-page]').forEach(item=>{
+  item.addEventListener('click',()=>showPage(item.dataset.page));
+});
+
+render();
+document.getElementById('sideDate').textContent = dateEl.value;
+dateEl.addEventListener('change',()=>document.getElementById('sideDate').textContent=dateEl.value);
+</script>
+</body>
+</html>
